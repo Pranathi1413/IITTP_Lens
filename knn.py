@@ -1,28 +1,48 @@
-import os
-import numpy as np
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from imutils import paths
+import numpy as np
+import cv2
+import os
+from skimage.transform import resize
+from skimage.io import imread
 
+def createImageFeatures(image, size=(244, 244, 3)):
+    # resize the image
+    image = resize(image, size)
+    # flatten the image
+    pixel_list = image.flatten()
+    return pixel_list
 
-x_train = np.load(os.path.join('datasets','x_train.npy'))
-x_test = np.load(os.path.join('datasets','x_test.npy'))
-x_validation = np.load(os.path.join('datasets','x_validation.npy'))
-y_train = np.load(os.path.join('datasets','y_train.npy'))
-y_test = np.load(os.path.join('datasets','y_test.npy'))
-y_validation = np.load(os.path.join('datasets','y_validation.npy'))
+n_classes = 19
+clusters = []
+flat_data_arr=[] #input array
+target_arr=[] #output array
+datadir='/content/drive/MyDrive/ML' 
+#path which contains all the categories of images
+for i in range(n_classes):
+    print(f'loading... category : {i}')
+    fname = "cluster" + str(i)
+    path=os.path.join(datadir,fname)
+    for img in os.listdir(path):
+        img_array=imread(os.path.join(path,img))
+        img_resized=resize(img_array,(244,244,3))
+        flat_data_arr.append(img_resized.flatten())
+        target_arr.append(i)
+    print(f'loaded category:{i} successfully')
+raw_images = np.array(flat_data_arr)
+labels = np.array(target_arr)
 
-scaler = StandardScaler()
-scaler.fit(x_train)
-x_train = scaler.transform(x_train)
-x_test = scaler.transform(x_test)
+(train_X, test_X, train_y, test_y) = train_test_split(raw_images, labels, test_size=0.25, random_state=0)
+    
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(train_X, train_y)
+acc = model.score(test_X, test_y)
+print("Raw pixel accuracy: {:.2f}%".format(acc * 100))
 
-classifier = KNeighborsClassifier(n_neighbors=5)
-classifier.fit(x_train, y_train)
-
-y_pred = classifier.predict(x_test)
-
-print(confusion_matrix(y_test, y_pred))
-print(classification_report(y_test, y_pred))
-print(f"The model is {accuracy_score(y_pred,y_test)*100}% accurate")
+'''
+image = cv2.imread("dog.jpg")
+dog = createImageFeatures(image)
+dog = np.array([dog])
+print(model.predict(dog))
+'''
