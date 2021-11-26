@@ -1,3 +1,4 @@
 clusters/*
 .vscode/*
 mlproj/*
+datasets/*
