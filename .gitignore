@@ -1,8 +1,7 @@
 clusters/*
 .vscode/*
 mlproj/*
-datasets/*
-mydatasets/*
 images/*
 env*
 zzzz/*
+client_images/*

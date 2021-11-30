@@ -1,5 +1,12 @@
 from flask import Flask, render_template, request
 import os
+import pickle
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import img_to_array
+import numpy as np
+
+vgg_model = None
+vgg_model_file = "models/vgg_model.sav"
 
 app = Flask(__name__)
 
@@ -9,12 +16,23 @@ def hello():
 
 @app.route("/sub", methods = ["POST"])
 def submit():
+    global vgg_model, vgg_model_file
     imgname = "No Image"
     if request.method == "POST":
         img = request.files['image']
-        img.save(os.path.join(img.filename))
+        fname = os.path.join("client_images", img.filename)
+        img.save(fname)
+        loaded_img = image.load_img(fname, target_size=(224, 224))
+        img_array = np.array([img_to_array(loaded_img)])
+        # print("shape", img_array.shape)
         imgname = img.filename
-    return render_template("sub.html", arg = imgname)
+        if vgg_model == None:
+            vgg_model = pickle.load(open(vgg_model_file, 'rb'))
+        result = vgg_model.predict(img_array)
+        # print("res", result[0])
+        cluster = np.where(result[0] == np.amax(result[0]))[0][0]
+        # print("cluster", cluster)
+    return render_template("sub.html", arg = cluster)
 
 
 if __name__ == "__main__":
