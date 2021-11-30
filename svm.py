@@ -3,30 +3,39 @@ import os
 from skimage.transform import resize
 from skimage.io import imread
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 from sklearn import svm
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 
-n_classes = 19
+n_classes = 27
 clusters = []
+'''
 flat_data_arr=[] #input array
 target_arr=[] #output array
-datadir='/content/drive/MyDrive/ML' 
+datadir='clusters' 
 #path which contains all the categories of images
 for i in range(n_classes):
-    print(f'loading... category : {i}')
-    fname = "cluster" + str(i)
+    j = 0
+    print(f'loading... category : {i+1}')
+    fname = "c" + str(i+1)
     path=os.path.join(datadir,fname)
     for img in os.listdir(path):
         img_array=imread(os.path.join(path,img))
         img_resized=resize(img_array,(244,244,3))
         flat_data_arr.append(img_resized.flatten())
-        target_arr.append(i)
-    print(f'loaded category:{i} successfully')
-flat_data=np.array(flat_data_arr)
-target=np.array(target_arr)
+        target_arr.append(i+1)
+    print(f'loaded category:{i+1} successfully')
+
+np.save(os.path.join("mydatasets","X"), flat_data)
+np.save(os.path.join("mydatasets","Y"), target)
+'''
+
+flat_data=np.load(os.path.join("mydatasets","X.npy"))
+target=np.load(os.path.join("mydatasets","Y.npy"))
+
+print("data loaded")
+
 df=pd.DataFrame(flat_data) #dataframe
 df['Target']=target
 x=df.iloc[:,:-1] #input data 
@@ -42,6 +51,8 @@ model.fit(x_train,y_train)
 print('The Model is trained well with the given images')
 # model.best_params_ contains the best parameters obtained from GridSearchCV
 
+print("params:")
+print(model.best_params_)
 y_pred=model.predict(x_test)
 print("The predicted Data is :")
 print(y_pred)

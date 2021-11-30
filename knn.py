@@ -1,8 +1,6 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
-from imutils import paths
 import numpy as np
-import cv2
 import os
 from skimage.transform import resize
 from skimage.io import imread
@@ -16,6 +14,7 @@ def createImageFeatures(image, size=(244, 244, 3)):
 
 n_classes = 19
 clusters = []
+'''
 flat_data_arr=[] #input array
 target_arr=[] #output array
 datadir='/content/drive/MyDrive/ML' 
@@ -30,8 +29,9 @@ for i in range(n_classes):
         flat_data_arr.append(img_resized.flatten())
         target_arr.append(i)
     print(f'loaded category:{i} successfully')
-raw_images = np.array(flat_data_arr)
-labels = np.array(target_arr)
+'''
+raw_images = np.load(os.path.join("mydatasets","X"))
+labels = np.load(os.path.join("mydatasets","y"))
 
 (train_X, test_X, train_y, test_y) = train_test_split(raw_images, labels, test_size=0.25, random_state=0)
     
