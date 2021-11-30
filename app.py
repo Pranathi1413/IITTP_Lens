@@ -20,10 +20,13 @@ def submit():
     imgname = "No Image"
     if request.method == "POST":
         img = request.files['image']
+        if not os.path.isdir("client_images"):
+            os.mkdir("client_images")
         fname = os.path.join("client_images", img.filename)
         img.save(fname)
         loaded_img = image.load_img(fname, target_size=(224, 224))
-        img_array = np.array([img_to_array(loaded_img)])
+        loaded_img = img_to_array(loaded_img)
+        img_array = np.array([loaded_img])
         # print("shape", img_array.shape)
         imgname = img.filename
         if vgg_model == None:

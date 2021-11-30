@@ -5,3 +5,4 @@ images/*
 env*
 zzzz/*
 client_images/*
+datasets/*
