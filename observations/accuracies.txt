@@ -1,0 +1,3 @@
+sgd - accuracy: 21.48% 
+knn - accuracy: 51.11%
+

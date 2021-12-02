@@ -4,14 +4,56 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<title>IITTP LENS</title>
 	</head>
+	<style>
+		body {
+			background-image: url("{{ url_for('display_image', filename=filename) }}");
+			background-repeat: no-repeat;
+  			background-size: cover;
+			font-family: 'Sofia';
+			font-size: '22px';
+			color: white;
+			text-align: center;
+		}
+		.form-center {
+			display:flex;
+			justify-content: center;
+		}
+		.blackdiv {
+			background-color: rgba(0,0,0,0.25);
+		}
+	</style>
 	<body>
-		<h1>IITTP LENS</h1>
-		<h2>Upload Picture</h2>
-		<form action="/sub" method="POST" enctype="multipart/form-data">
-			<input type="file" name="image" autocomplete="off" required />
-			<button type="submit">Upload</button>
-		</form>
+		<div class="blackdiv">
+			<h1><b>IITTP LENS</b></h1>
+			<h2><b>Upload Picture</b></h2>
+			<div class="form-center">
+				<form action="/" method="POST" enctype="multipart/form-data">
+						<input class="form-control" type="file" name="image" autocomplete="off" required />
+						<button class= "btn btn-default" type="submit">Upload</button>
+				</form>
+			</div>
+			{% if cluster %}
+				<h1><b>This is {{ cluster }}!</b></h1>
+			{% endif %}
+		</div>
+		<p>
+			{% with messages = get_flashed_messages() %}
+			  {% if messages %}
+				<ul>
+				{% for message in messages %}
+					{% if message != "No image" %}
+				  		<li>{{ message }}</li>
+					{%  endif %}
+				{% endfor %}
+				</ul>
+			  {% endif %}
+			{% endwith %}
+		</p>
 	</body>
 </html>

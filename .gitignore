@@ -4,5 +4,7 @@ mlproj/*
 images/*
 env*
 zzzz/*
-client_images/*
+mydatasets/*
 datasets/*
+static/uploads/*
+
