@@ -18,7 +18,6 @@
 			font-family: 'Sofia';
 			font-size: '22px';
 			color: white;
-			text-align: center;
 		}
 		.form-center {
 			display:flex;
@@ -27,9 +26,14 @@
 		.blackdiv {
 			background-color: rgba(0,0,0,0.25);
 		}
+		.rightbtm {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+		}
 	</style>
 	<body>
-		<div class="blackdiv">
+		<div class="blackdiv text-center">
 			<h1><b>IITTP LENS</b></h1>
 			<h2><b>Upload Picture</b></h2>
 			<div class="form-center">
@@ -55,5 +59,8 @@
 			  {% endif %}
 			{% endwith %}
 		</p>
+		<div class="rightbtm blackdiv">
+			<b>Done by: Swetha, Shruti, Sai Datta, Pranathi</b>
+		</div>
 	</body>
 </html>
