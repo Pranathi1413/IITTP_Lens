@@ -1,3 +1,9 @@
+vgg16 training Accuracy : 100%
+vgg16 test Acccuracy : 87.93%
+vgg16 Classwise average ROC-AUC Score: 0.962
 sgd - accuracy: 21.48% 
 knn - accuracy: 51.11%
+random forest training Accuracy: 100.0%
+random forest test Accuracy: 56.67%
+random forest Classwise average ROC-AUC Score: 0.9629629629629629
 

@@ -42,6 +42,65 @@ print(sklearn.metrics.classification_report(y_true= y_train, y_pred= y_pred_trai
 print("Test data metrics:")
 print(sklearn.metrics.classification_report(y_true=test_y, y_pred= y_pred_test))
 
+# converting into y test and y predicted one hot vector
+y_test = []
+test_y = test_y.tolist()
+for i in test_y:
+  y_test.append(int(i[0]))
+  
+one_hot = np.zeros((270,27))
+rows = np.arange(len(y_test))
+one_hot[rows, y_test] = 1
+
+
+y_pred = [int(a) for a in y_pred_test]
+one_hot2 = np.zeros((270,27))
+rows2 = np.arange(len(y_pred_test))
+one_hot2[rows2, y_pred] = 1
+
+
+# get current size
+fig_size = plt.rcParams["figure.figsize"]
+
+print ("Current size:", fig_size)
+# let's make the plots a bit bigger than the default
+# set figure width to 14 and height to 6
+fig_size[0] = 14
+fig_size[1] = 6
+plt.rcParams["figure.figsize"] = fig_size
+print ("Current size:", fig_size)
+
+# POC curver
+fig, ax = plt.subplots()
+precision = dict()
+recall = dict()
+for i in range(27):
+    precision[i], recall[i], _ = precision_recall_curve(one_hot[:, i], one_hot2[:, i])
+    ax.plot(recall[i], precision[i], lw=2)
+    #ax.annotate(xy=(recall[i][-1][-1],precision[i][-1]), xytext=(27,0), text='class {}'.format(i))
+    
+plt.xlabel("recall")
+plt.ylabel("precision")
+plt.legend(loc="best")
+plt.title("precision vs. recall curve")
+plt.show()
+# ROC curve
+TPR = dict()
+FPR = dict()
+auc_classwise = []
+for i in range(27):
+    FPR[i], TPR[i], _ = roc_curve(one_hot[:, i], one_hot2[:, i])
+    plt.plot(FPR[i], TPR[i], lw=2)
+    auc_classwise.append(auc(FPR[i], TPR[i]))
+    #ax.annotate(xy=(recall[i][-1][-1],precision[i][-1]), xytext=(27,0), text='class {}'.format(i))
+
+    
+plt.xlabel("FP Rate")
+plt.ylabel("TP Rate")
+plt.legend(loc="best")
+plt.title("ROC curve")
+plt.show()
+print(auc_classwise)
 
 
   
