@@ -203,10 +203,10 @@ learning_rate = 0.005
 mlpmixer_classifier = build_classifier(mlpmixer_blocks)
 history = run_experiment(mlpmixer_classifier)
 
+# Testing for one datapoint
 Xtrial = x_train[4:5]
 ytrial = y_train[4]
 yout = mlpmixer_classifier.predict(Xtrial)
-print('predicted  :', yout)
 yout = np.argmax(yout,axis=1)
 print('prediction :', yout)
 print('actual     :', ytrial)
