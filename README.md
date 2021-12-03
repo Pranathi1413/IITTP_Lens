@@ -28,3 +28,12 @@ The model was observed to have an accuracy slightly lesser than VGG16 but high e
 Test accuracy: 85.56%
 Avg classwise AUC of ROC curve:  0.9690683048083327
 ```
+
+### Random Forest
+>This is a Supervised Machine Learning algorithm, widely used in Classification and Regression problems. It uses the ensamble technique and builds decision tree for each sample and takes majority vote in case of classification. 
+```
+Here, test accuracy was very less comapred to CNN model accuracies. Thus, it failed to classify majority of the images to their respective classes.
+Training Accuracy: 100.0%
+Test Accuracy: 56.67%
+Classwise average ROC-AUC Score: 0.9629629629629629
+```
